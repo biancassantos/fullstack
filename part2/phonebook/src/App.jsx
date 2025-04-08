@@ -34,9 +34,9 @@ function App() {
         const updatedPerson = {...personExists, number: newNumber}
         peopleService
           .updateNumber(updatedPerson.id, updatedPerson)
-          .then(returnedPerson => setPersons(persons.map(person => returnedPerson.id === person.id ? returnedPerson : person)))
+          .then(returnedPerson => console.log(returnedPerson))
           .catch(error => {
-            setMessage(`Information on ${newName} has already been removed from the server`)
+            setMessage(error.response.data.error)
             setIsError(true)
             clearMessage()
           })
@@ -46,7 +46,12 @@ function App() {
       const newPerson = {name: newName, number: newNumber}
       peopleService
         .create(newPerson)
-        .then(returnedPerson => setPersons(persons.concat(returnedPerson)))
+        .then(returnedPerson => console.log(returnedPerson))
+        .catch(error => {
+          setMessage(error.response.data.error)
+          setIsError(true)
+          clearMessage()
+        })
       setMessage(`Added ${newName}`)
       clearMessage()
     }
